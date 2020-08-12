@@ -1,5 +1,11 @@
-#The module for system-specific parameters and functions
+# The module for system-specific parameters and functions
 import sys
+
+# Import SymbolTable class
+from symbol_table_class import SymbolTable
+
+# Import scanner
+from pulse_scanner import scanner
 
 
 def readFile(path):
@@ -8,7 +14,7 @@ def readFile(path):
 
     Params
     ======
-    path (string) : PAth to file which is to be read
+    path (string) : Path to file which is to be read
 
     Returns
     =======
@@ -21,11 +27,11 @@ def readFile(path):
         # if file cannot be opened
         sys.stderr.write("Could not open %s" % (path))
         exit(74)
-        
-    #reading the file
+
+    # reading the file
     if file.mode == "r":
         buffer = file.read()
-        #Add a EOF token to end of source code
+        # Add a EOF token to end of source code
         buffer += "\0"
 
     file.close()
@@ -36,11 +42,18 @@ def readFile(path):
 # Read file path from command line
 file_path = sys.argv[1]
 
-# Get the source code from code file
+# Get the source code form code file
 source_code = readFile(file_path)
 
-# TODO: Pass source code to lexical analyzer
+# Create symbol table
+table = SymbolTable()
 
-# TODO: Pass tokens into parser and generate opcodes
+# Pass source code to lexical analyzer
+tokens = scanner(source_code, table)
 
-# TODO: Pass opcodes into compiler and generate pulse code
+for token in tokens:
+    print(token)
+
+# TODO: Pass tokens into parser and compiler
+
+# TODO: Pass bytecode into VM for execution

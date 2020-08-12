@@ -20,7 +20,6 @@ class Token:
         """
 
         self.type = type
-        self.typedig = self.token2dig(type)
         self.val = val
         self.line_num = line_num
 
@@ -31,4 +30,8 @@ class Token:
         string: The string representation of Token object, which can be used to print the tokens
         """
 
-        return "Token(%s, %s)" % (self.type, self.val)
+        return (
+            "Token(%s, %s)" % (self.type, self.val)
+            if self.type != "newline"
+            else "Token(%s, %s)\n" % (self.type, self.val)
+        )
